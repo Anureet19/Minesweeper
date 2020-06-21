@@ -7,6 +7,7 @@ import android.os.SystemClock
 import android.widget.Chronometer
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_board.*
 import kotlin.random.Random
@@ -15,9 +16,9 @@ import kotlin.random.Random
 class BoardActivity : AppCompatActivity() {
 
     private lateinit var chronometer : Chronometer
-    private lateinit var mineCount : TextView
 
     var choice : Int = 1
+    var flaggedMines = 0
     var status  = Status.ONGOING
     private set
 
@@ -47,11 +48,11 @@ class BoardActivity : AppCompatActivity() {
 
         // Restarting the game
         restartGame.setOnClickListener{
-            GameRestart()
+            gameRestart()
         }
     }
 
-    private fun GameRestart() {
+    private fun gameRestart() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
 
         builder.setMessage("Do you want to restart the game ?")
@@ -85,6 +86,8 @@ class BoardActivity : AppCompatActivity() {
 
     private fun setUpBoard(row: Int, col: Int, mine: Int) {
 
+        mineCount.text = ""+mine
+
         val cellBoard = Array(row) { Array(col) {MineCell(this)}}
 
         mineFlagOption.setOnClickListener{
@@ -97,8 +100,6 @@ class BoardActivity : AppCompatActivity() {
             }
         }
 
-        mineCount = findViewById(R.id.mineCount)
-        mineCount.setText(""+mine)
 
         var counter = 1
         var isFirstClick = true
@@ -142,14 +143,8 @@ class BoardActivity : AppCompatActivity() {
                         startTimer()
 
                     }
-                    // Checking if it is already marked and
-                    // Unmarking it
-                    if(choice==2 && button.isMarked){
-                        choice = 3
-                    }
 
-                    // Move function
-                    move(choice,i,j,cellBoard,row,col)
+                    move(choice, i, j, cellBoard, row, col,mine)
                     display(cellBoard)
 
                 }
@@ -165,10 +160,8 @@ class BoardActivity : AppCompatActivity() {
         var mineCount = mine
         var i=1
         while(i<=mineCount){
-            val rand = Random(System.nanoTime())
             var r = (Random(System.nanoTime()).nextInt(0, rowSize))
             var c = (Random(System.nanoTime()).nextInt(0, colSize))
-//            (0 until colSize).random(rand)
             if(r==row || cellBoard[r][c].isMine){
                 continue
             }
@@ -192,7 +185,7 @@ class BoardActivity : AppCompatActivity() {
     // Handles when board[x][y]==0
     private val xDir = intArrayOf(-1, -1, 0, 1, 1, 1, 0, -1)
     private val yDir = intArrayOf(0, 1, 1, 1, 0, -1, -1, -1)
-    fun handleZero(x:Int ,y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int){
+    private fun handleZero(x:Int ,y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int){
 
         cellBoard[x][y].isRevealed = true
         for(i in 0..7){
@@ -212,7 +205,7 @@ class BoardActivity : AppCompatActivity() {
     }
 
     // To update status (ongoing/won)
-    fun checkStatus(cellBoard:Array<Array<MineCell>>, rowSize:Int, colSize: Int){
+    private fun checkStatus(cellBoard:Array<Array<MineCell>>, rowSize:Int, colSize: Int){
         var flag1=0
         var flag2=0
         for(i in 0 until rowSize){
@@ -229,7 +222,7 @@ class BoardActivity : AppCompatActivity() {
         else status = Status.ONGOING
     }
 
-    fun move(choice: Int, x: Int, y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int): Boolean{
+    private fun move(choice: Int, x: Int, y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int,mine:Int): Boolean{
 
         if(choice==1){
             if(cellBoard[x][y].isMarked || cellBoard[x][y].isRevealed){
@@ -251,24 +244,28 @@ class BoardActivity : AppCompatActivity() {
             }
 
         }
-
         if(choice == 2){
-            if(cellBoard[x][y].isRevealed || cellBoard[x][y].isMarked){
-                return false;
-            }
-            cellBoard[x][y].isMarked = true;
-            checkStatus(cellBoard,rowSize,colSize)
 
-            return true;
-        }
-
-        if(choice == 3){
             if(cellBoard[x][y].isRevealed) return false
-            cellBoard[x][y].setBackgroundResource(R.drawable.ten)
-            cellBoard[x][y].isMarked = false
-            checkStatus(cellBoard,rowSize,colSize)
 
-            return true
+            else if(cellBoard[x][y].isMarked){
+                flaggedMines--
+                cellBoard[x][y].setBackgroundResource(R.drawable.ten)
+                cellBoard[x][y].isMarked = false
+                checkStatus(cellBoard,rowSize,colSize)
+            }
+            else {
+                if(flaggedMines==mine){
+                    Toast.makeText(this,"You cannot mark more than $mine mines",Toast.LENGTH_LONG).show()
+                    return false
+                }
+                flaggedMines++
+                cellBoard[x][y].isMarked = true;
+                checkStatus(cellBoard, rowSize, colSize)
+            }
+            var finalMineCount = mine-flaggedMines
+            mineCount.text = ""+finalMineCount
+            return true;
         }
 
         return false
@@ -279,8 +276,6 @@ class BoardActivity : AppCompatActivity() {
             row.forEach {
                 if(it.isRevealed)
                     setNumberImage(it)
-//                else if(!it.isMarked)
-//                    it.setBackgroundResource(R.drawable.ten)
                 else if (it.isMarked)
                     it.setBackgroundResource(R.drawable.flag1)
                 else if (status == Status.LOST && it.value == MINE) {
