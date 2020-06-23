@@ -1,13 +1,19 @@
 package com.anureet.minesweeper
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.IntentFilter
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.*
-import androidx.core.view.isVisible
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +22,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        val intent = intent
+//        lastGameTime.text=""+intent.getStringExtra("lastTime")
+//        bestTime.text = ""+intent.getStringExtra("highScore")
+
+//        LocalBroadcastManager.getInstance(this).registerReceiver(scoreReceiver, IntentFilter("data"));
+
+        getSavedScores()
 
         buttonCustomBoard.setOnClickListener{
             level=""
@@ -37,7 +51,32 @@ class MainActivity : AppCompatActivity() {
             startGame(level)
         }
 
+    }
+//    private val scoreReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+//        override fun onReceive(
+//            context: Context,
+//            intent: Intent
+//        ) { // do some action
+//            lastGameTime.text=""+intent.getStringExtra("lastTime")
+//            bestTime.text = ""+intent.getStringExtra("highScore")
+//        }
+//    }
 
+    override fun onResume() {
+        super.onResume()
+        val intent = intent
+        lastGameTime.text=""+intent.getStringExtra("lastTime")
+        bestTime.text = ""+intent.getStringExtra("highScore")
+    }
+
+    fun getSavedScores() {
+        // Setting highScore and LastGame Time
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        var highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), 0)
+        var lastTime = sharedPref.getInt(getString(R.string.last_time),0)
+
+        lastGameTime.text = ""+lastTime
+        bestTime.text = ""+highScore
 
     }
 

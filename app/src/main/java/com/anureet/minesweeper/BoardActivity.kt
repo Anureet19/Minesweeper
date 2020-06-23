@@ -1,12 +1,14 @@
 package com.anureet.minesweeper
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.widget.Chronometer
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_board.*
@@ -15,6 +17,7 @@ import kotlin.random.Random
 
 class BoardActivity : AppCompatActivity() {
 
+    private val TAG = "MyActivity"
     private lateinit var chronometer : Chronometer
 
     var choice : Int = 1
@@ -83,6 +86,67 @@ class BoardActivity : AppCompatActivity() {
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.start()
     }
+
+    // Saving chromometer state
+    private fun saveTime(){
+        chronometer.stop()
+        val elapsedTime = SystemClock.elapsedRealtime() - chronometer.base;
+
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val lastTime = elapsedTime.toInt()
+        Log.d(TAG,"lastTime"+lastTime)
+        var highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), Integer.MAX_VALUE)
+        Log.d(TAG,"highscore"+highScore)
+
+        var isHighScore=false
+
+        if(lastTime<highScore){
+            highScore = lastTime
+            isHighScore=true
+        }
+
+        with (sharedPref.edit()) {
+            putInt(getString(R.string.saved_high_score_key), highScore)
+            putInt(getString(R.string.last_time),lastTime)
+            commit()
+        }
+        setTime(highScore,lastTime,isHighScore)
+
+    }
+
+    private fun setTime(highScore:Int, lastTime:Int, isHighScore:Boolean){
+        val fastestTime = ""+((highScore / 1000) / 60)+" m "+((highScore / 1000) % 60)+" s";
+        val lastGameTime = ""+((lastTime / 1000) / 60)+" m "+((lastTime / 1000) % 60)+" s";
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        if(isHighScore) builder.setMessage("$fastestTime is the fastest time")
+        else builder.setMessage("$lastGameTime is your time")
+        builder.setTitle("Congratulations! You Won")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("Restart Game"
+        ){ dialog, which ->
+            val intent = intent
+            finish()
+            startActivity(intent)
+        }
+
+        builder.setNegativeButton("Main Page", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                val intent = Intent(this@BoardActivity,MainActivity::class.java)
+                intent.putExtra("highScore",fastestTime)
+                intent.putExtra("lastTime",lastGameTime)
+                startActivity(intent)
+
+            }
+        })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+    }
+
 
     private fun setUpBoard(row: Int, col: Int, mine: Int) {
 
@@ -220,6 +284,9 @@ class BoardActivity : AppCompatActivity() {
         }
         if(flag1==0 || flag2==0) status = Status.WON
         else status = Status.ONGOING
+        if(status==Status.WON){
+            saveTime()
+        }
     }
 
     private fun move(choice: Int, x: Int, y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int,mine:Int): Boolean{
@@ -290,7 +357,6 @@ class BoardActivity : AppCompatActivity() {
                 else if (status == Status.WON && it.value == MINE) {
                     it.setBackgroundResource(R.drawable.flag1)
                     restartGame.setImageResource(R.drawable.won)
-                    chronometer.stop()
                 }
                 else
                     it.text = " "

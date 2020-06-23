@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Minesweeper</string>
+    <string name="last_time">lastTime</string>
+    <string name="saved_high_score_key">highscore</string>
 </resources>
