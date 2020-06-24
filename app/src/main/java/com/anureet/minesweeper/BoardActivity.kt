@@ -64,7 +64,6 @@ class BoardActivity : AppCompatActivity() {
 
         builder.setPositiveButton("Yes"
         ){ dialog, which ->
-            restartGame.setImageResource(R.drawable.happy_face)
             val intent = getIntent()
             finish()
             startActivity(intent)
@@ -78,6 +77,11 @@ class BoardActivity : AppCompatActivity() {
 
         val alertDialog = builder.create()
         alertDialog.show()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
     }
 
     // Count-up timer
@@ -145,6 +149,32 @@ class BoardActivity : AppCompatActivity() {
         val alertDialog = builder.create()
         alertDialog.show()
 
+    }
+
+    private fun gamelost(){
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setMessage("Sorry you loose")
+        builder.setTitle("Stepped on mine!")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("Restart Game"
+        ){ dialog, which ->
+            val intent = intent
+            finish()
+            startActivity(intent)
+        }
+
+        builder.setNegativeButton("Main Page", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                val intent = Intent(this@BoardActivity,MainActivity::class.java)
+                startActivity(intent)
+
+            }
+        })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 
 
@@ -284,9 +314,9 @@ class BoardActivity : AppCompatActivity() {
         }
         if(flag1==0 || flag2==0) status = Status.WON
         else status = Status.ONGOING
-        if(status==Status.WON){
-            saveTime()
-        }
+        if(status==Status.WON) saveTime()
+        else if(status==Status.LOST) gamelost()
+
     }
 
     private fun move(choice: Int, x: Int, y:Int, cellBoard:Array<Array<MineCell>>, rowSize: Int,colSize: Int,mine:Int): Boolean{
@@ -348,6 +378,7 @@ class BoardActivity : AppCompatActivity() {
                 else if (status == Status.LOST && it.value == MINE) {
                     restartGame.setImageResource(R.drawable.sad_face)
                     it.setBackgroundResource(R.drawable.mine)
+                    gamelost()
                     chronometer.stop()
                 }
                 //To show that mine is not present here but it is marked

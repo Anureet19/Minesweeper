@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".MainActivity">
 
     <TextView
@@ -11,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/arbutus"
         android:text="Minesweeper"
-        android:textColor="@android:color/black"
+        android:textColor="#344955"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,8 +75,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/arbutus"
         android:text="Select Difficulty"
-        android:textColor="@android:color/black"
+        android:textColor="#344955"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,21 +96,27 @@
             android:id="@+id/easy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="monospace"
             android:text="Easy"
+            android:textColor="#636E72"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="monospace"
             android:text="Medium"
+            android:textColor="#636E72"
             android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/hard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="monospace"
             android:text="Hard"
+            android:textColor="#636E72"
             android:textSize="18sp" />
     </RadioGroup>
 
@@ -115,6 +124,7 @@
         android:id="@+id/orLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/arbutus"
         android:text="Or"
         android:textColor="@android:color/black"
         android:textSize="20sp"
@@ -127,7 +137,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="#344955"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Make A Custom Board"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orLabel" />
@@ -137,7 +151,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:background="#344955"
         android:text="START"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

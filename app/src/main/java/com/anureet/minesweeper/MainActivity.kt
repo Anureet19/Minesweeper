@@ -1,17 +1,15 @@
 package com.anureet.minesweeper
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,12 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        val intent = intent
-//        lastGameTime.text=""+intent.getStringExtra("lastTime")
-//        bestTime.text = ""+intent.getStringExtra("highScore")
-
-//        LocalBroadcastManager.getInstance(this).registerReceiver(scoreReceiver, IntentFilter("data"));
 
         getSavedScores()
 
@@ -52,18 +44,10 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-//    private val scoreReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(
-//            context: Context,
-//            intent: Intent
-//        ) { // do some action
-//            lastGameTime.text=""+intent.getStringExtra("lastTime")
-//            bestTime.text = ""+intent.getStringExtra("highScore")
-//        }
-//    }
 
     override fun onResume() {
         super.onResume()
+        getSavedScores()
         val intent = intent
         lastGameTime.text=""+intent.getStringExtra("lastTime")
         bestTime.text = ""+intent.getStringExtra("highScore")
@@ -75,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         var highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), 0)
         var lastTime = sharedPref.getInt(getString(R.string.last_time),0)
 
+        Log.d("MainActivity","entered + $highScore + $lastTime")
         lastGameTime.text = ""+lastTime
         bestTime.text = ""+highScore
 
