@@ -1,10 +1,8 @@
 package com.anureet.minesweeper
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
@@ -20,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        getSavedScores()
 
         buttonCustomBoard.setOnClickListener{
             level=""
@@ -45,27 +41,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // On resuming of activity
     override fun onResume() {
         super.onResume()
-        getSavedScores()
         val intent = intent
         lastGameTime.text=""+intent.getStringExtra("lastTime")
         bestTime.text = ""+intent.getStringExtra("highScore")
     }
 
-    fun getSavedScores() {
-        // Setting highScore and LastGame Time
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        var highScore = sharedPref.getInt(getString(R.string.saved_high_score_key), 0)
-        var lastTime = sharedPref.getInt(getString(R.string.last_time),0)
-
-        Log.d("MainActivity","entered + $highScore + $lastTime")
-        lastGameTime.text = ""+lastTime
-        bestTime.text = ""+highScore
-
-    }
-
-    fun startGame(level: String){
+    // This function will get called on clicking start button
+    private fun startGame(level: String){
         if(level.equals("")){
             val rows = findViewById<EditText>(R.id.enterRows)
             val columns = findViewById<EditText>(R.id.enterColumns)
@@ -80,10 +65,16 @@ class MainActivity : AppCompatActivity() {
                 var column = Integer.parseInt(columns.text.toString())
                 var mine = Integer.parseInt(mines.text.toString())
 
+                // Checking for overcrowding of rows and columns
+                if(row>25 || column>25){
+                    Toast.makeText(this,"The number of rows and columns should be less than 25",Toast.LENGTH_SHORT).show()
+                }
                 //Checking for overcrowding of mines
-                if(mine > (row*column/4)){
-                    Toast.makeText(this,"The number of mines should be less",Toast.LENGTH_LONG).show()
-                }else {
+                else if(mine > (row*column/4)){
+                    Toast.makeText(this,"The number of mines should be less to avoid overcrowding",Toast.LENGTH_LONG).show()
+                }
+                // Sending row, column and mine number using intents
+                else {
                     val intent = Intent(this, BoardActivity::class.java).apply {
                         putExtra("numberOfRows", row)
                         putExtra("numberOfColumns", column)
@@ -93,7 +84,9 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-        }else{
+        }
+        // Sending the selected level using intents
+        else{
             val intent = Intent(this, BoardActivity::class.java).apply {
                 putExtra("selectedLevel",level)
                 putExtra("flag",1)
@@ -102,7 +95,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun customTextVisibility(view: View){
+    // Setting visibility of textViews on the basis of level/custom board selection
+    private fun customTextVisibility(view: View){
         if (view is RadioButton) {
             val checked = view.isChecked
             if(checked) {

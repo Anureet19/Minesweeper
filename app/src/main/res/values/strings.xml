@@ -2,4 +2,18 @@
     <string name="app_name">Minesweeper</string>
     <string name="last_time">lastTime</string>
     <string name="saved_high_score_key">highscore</string>
+    <string name="minesweeper">Minesweeper</string>
+    <string name="best_time">Best Time :</string>
+    <string name="last_game_time">Last Game Time :</string>
+    <string name="na">NA</string>
+    <string name="select_difficulty">Select Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="or">Or</string>
+    <string name="make_a_custom_board">Make A Custom Board</string>
+    <string name="start">START</string>
+    <string name="enter_the_number_of_rows">Enter the number of rows</string>
+    <string name="enter_the_number_of_columns">Enter the number of columns</string>
+    <string name="enter_the_number_of_mines">Enter the number of mines</string>
 </resources>

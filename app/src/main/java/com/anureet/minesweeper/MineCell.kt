@@ -3,7 +3,6 @@ package com.anureet.minesweeper
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.contentValuesOf
 
 class MineCell : AppCompatButton {
     constructor(context: Context?) : super(context)
