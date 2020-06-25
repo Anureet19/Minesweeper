@@ -45,8 +45,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val intent = intent
-        lastGameTime.text=""+intent.getStringExtra("lastTime")
-        bestTime.text = ""+intent.getStringExtra("highScore")
+        if(intent.getStringExtra("lastTime") != null || intent.getStringExtra("highScore") != null ) {
+            lastGameTime.text = "" + intent.getStringExtra("lastTime")
+            bestTime.text = "" + intent.getStringExtra("highScore")
+        }else{
+            lastGameTime.text = " NA"
+            bestTime.text = " NA"
+        }
     }
 
     // This function will get called on clicking start button

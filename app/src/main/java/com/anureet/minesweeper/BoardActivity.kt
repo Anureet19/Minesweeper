@@ -178,7 +178,7 @@ class BoardActivity : AppCompatActivity() {
             }
             if(cellBoard[x][y].value == MINE){
                 status = Status.LOST;
-                saveTime()
+                updateScore()
                 return true
             }
             else if(cellBoard[x][y].value >0){
@@ -259,8 +259,7 @@ class BoardActivity : AppCompatActivity() {
         if(flag1==0 || flag2==0) status = Status.WON
         else status = Status.ONGOING
 
-        if(status==Status.WON) saveTime()
-
+        if(status==Status.WON) updateScore()
 
     }
 
@@ -291,13 +290,13 @@ class BoardActivity : AppCompatActivity() {
     // On pressing back button
     override fun onBackPressed() {
         super.onBackPressed()
-        saveTime()
+        updateScore()
         toMainActivity()
     }
 
     // Saving chromometer state
-    // This function is used to store highscore and lastgame time
-    private fun saveTime(){
+    // This function is used to update and store highscore and lastgame time
+    private fun updateScore(){
         chronometer.stop()
 
         // Getting elapsed time from chronometer
@@ -325,7 +324,7 @@ class BoardActivity : AppCompatActivity() {
             lastGameTime = ""+((lastTime / 1000) / 60)+" m "+((lastTime / 1000) % 60)+" s"
         }
         else{
-            lastGameTime = "Lost!"
+            lastGameTime = " Lost!"
             fastestTime = " NA"
         }
 
@@ -341,7 +340,7 @@ class BoardActivity : AppCompatActivity() {
         if(status == Status.WON){
             gameWon(isHighScore)
         }else if(status == Status.LOST){
-            gamelost()
+            gameLost()
         }
 
     }
@@ -375,7 +374,7 @@ class BoardActivity : AppCompatActivity() {
 
     }
 
-    private fun gamelost(){
+    private fun gameLost(){
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
 
         builder.setMessage("Sorry you loose")
@@ -421,8 +420,7 @@ class BoardActivity : AppCompatActivity() {
                 else if (status == Status.LOST && it.value == MINE) {
                     restartGame.setImageResource(R.drawable.sad_face)
                     it.setBackgroundResource(R.drawable.mine)
-//                    chronometer.stop()
-                    saveTime()
+                    updateScore()
                 }
                 //To show that mine is not present here but it is marked
                 if(status == Status.LOST && it.isMarked && !it.isMine){
