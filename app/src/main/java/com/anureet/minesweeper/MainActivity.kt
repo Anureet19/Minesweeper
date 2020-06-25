@@ -1,5 +1,7 @@
 package com.anureet.minesweeper
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -41,6 +43,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // On pressing back button
+    override fun onBackPressed() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setMessage("Are you sure you want to exit the app?")
+        builder.setTitle("Alert! ")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("Yes"
+        ){ dialog, which ->
+            val exitAppIntent = Intent(Intent.ACTION_MAIN)
+            exitAppIntent.addCategory(Intent.CATEGORY_HOME)
+            exitAppIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(exitAppIntent)
+            finish()
+            super.onBackPressed()
+        }
+
+        builder.setNegativeButton("No", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+            }
+        })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+
+
     // On resuming of activity
     override fun onResume() {
         super.onResume()
@@ -71,8 +101,11 @@ class MainActivity : AppCompatActivity() {
                 var mine = Integer.parseInt(mines.text.toString())
 
                 // Checking for overcrowding of rows and columns
-                if(row>25 || column>25){
-                    Toast.makeText(this,"The number of rows and columns should be less than 25",Toast.LENGTH_SHORT).show()
+                if(row>25 || column>25 || row<5 || column<5){
+                    Toast.makeText(this,"The number of rows and columns should be greater than 4 and less than 25",Toast.LENGTH_SHORT).show()
+                }
+                else if(mine<3){
+                    Toast.makeText(this,"The number of mines should be greater than 2",Toast.LENGTH_LONG).show()
                 }
                 //Checking for overcrowding of mines
                 else if(mine > (row*column/4)){
@@ -120,7 +153,4 @@ class MainActivity : AppCompatActivity() {
             enterMines.visibility = View.VISIBLE
         }
     }
-
-
-
 }

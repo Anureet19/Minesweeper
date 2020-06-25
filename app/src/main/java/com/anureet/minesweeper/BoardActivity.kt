@@ -40,9 +40,9 @@ class BoardActivity : AppCompatActivity() {
             if(level.equals("easy")){
                 setUpBoard(12,12,6)
             }else if(level.equals("medium")){
-                setUpBoard(14,14,30)
+                setUpBoard(14,14,10)
             }else if(level.equals("hard")){
-                setUpBoard(16,16,60)
+                setUpBoard(16,16,12)
             }
         }
         else{
@@ -289,9 +289,27 @@ class BoardActivity : AppCompatActivity() {
 
     // On pressing back button
     override fun onBackPressed() {
-        super.onBackPressed()
-        updateScore()
-        toMainActivity()
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setMessage("Are you sure you want to exit the game?")
+        builder.setTitle("Game is still ongoing!")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("Yes"
+        ){ dialog, which ->
+            updateScore()
+            toMainActivity()
+            finish()
+            super.onBackPressed()
+        }
+
+        builder.setNegativeButton("No", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+            }
+        })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 
     // Saving chromometer state
@@ -366,6 +384,7 @@ class BoardActivity : AppCompatActivity() {
         builder.setNegativeButton("Main Page", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 toMainActivity()
+                finish()
             }
         })
 
@@ -390,6 +409,7 @@ class BoardActivity : AppCompatActivity() {
 
         builder.setNegativeButton("Main Page", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
+                finish()
                 toMainActivity()
             }
         })
@@ -420,7 +440,6 @@ class BoardActivity : AppCompatActivity() {
                 else if (status == Status.LOST && it.value == MINE) {
                     restartGame.setImageResource(R.drawable.sad_face)
                     it.setBackgroundResource(R.drawable.mine)
-                    updateScore()
                 }
                 //To show that mine is not present here but it is marked
                 if(status == Status.LOST && it.isMarked && !it.isMine){
