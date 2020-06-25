@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#4A6572">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="#4A6572"
         tools:context=".MainActivity">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/arbutus"
             android:text="@string/minesweeper"
-            android:textColor="#344955"
+            android:textColor="#F9AA33"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/best_time"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/bestTime"
             app:layout_constraintHorizontal_bias="0.5"
@@ -43,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/na"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/last_game_time"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/lastGameTime"
             app:layout_constraintHorizontal_bias="0.5"
@@ -68,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/na"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -81,7 +86,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/arbutus"
             android:text="@string/select_difficulty"
-            android:textColor="#344955"
+            android:textColor="#F9AA33"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:text="@string/easy"
-                android:textColor="#636E72"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -111,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:text="@string/medium"
-                android:textColor="#636E72"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -120,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:text="@string/hard"
-                android:textColor="#636E72"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </RadioGroup>
 
@@ -130,7 +135,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/arbutus"
             android:text="@string/or"
-            android:textColor="@android:color/black"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="#344955"
+            android:background="#F9AA33"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/make_a_custom_board"
@@ -155,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#344955"
+            android:background="#F9AA33"
             android:text="@string/start"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -173,6 +178,8 @@
             android:ems="10"
             android:hint="@string/enter_the_number_of_rows"
             android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/enterColumns"
             app:layout_constraintEnd_toEndOf="parent"
@@ -190,6 +197,8 @@
             android:ems="10"
             android:hint="@string/enter_the_number_of_columns"
             android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/enterMines"
             app:layout_constraintEnd_toEndOf="parent"
@@ -206,6 +215,8 @@
             android:ems="10"
             android:hint="@string/enter_the_number_of_mines"
             android:inputType="number"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#FFFFFF"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/startButton"
             app:layout_constraintEnd_toEndOf="parent"
