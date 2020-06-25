@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2D3436"
     tools:context=".BoardActivity">
 
     <Chronometer
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="monospace"
-        android:textColor="#344955"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/timerLabel"
         app:layout_constraintStart_toStartOf="@+id/timerLabel"
@@ -26,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
         android:text="Mine Count"
-        android:textColor="#344955"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +40,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif"
         android:text="Timer"
-        android:textColor="#344955"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +53,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="monospace"
         android:text="12"
-        android:textColor="#344955"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/mineCountLabel"
         app:layout_constraintStart_toStartOf="@+id/mineCountLabel"

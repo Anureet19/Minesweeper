@@ -38,11 +38,11 @@ class BoardActivity : AppCompatActivity() {
         if(flag==1){
             var level = intent.getStringExtra("selectedLevel")
             if(level.equals("easy")){
-                setUpBoard(12,12,6)
+                setUpBoard(12,12,12)
             }else if(level.equals("medium")){
-                setUpBoard(14,14,10)
+                setUpBoard(14,14,32)
             }else if(level.equals("hard")){
-                setUpBoard(16,16,12)
+                setUpBoard(16,16,60)
             }
         }
         else{

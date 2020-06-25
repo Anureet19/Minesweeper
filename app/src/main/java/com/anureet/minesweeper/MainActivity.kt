@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     var level = ""
+    var highScore = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,49 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener{
             startGame(level)
         }
+        infoButton.setOnClickListener{
+            showInstructions()
+        }
+        shareButton.setOnClickListener{
+            shareHighScore()
+        }
+
+    }
+
+    private fun shareHighScore() {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "This is my highscore in minesweeper game : "+highScore)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+    // To show basic instructions
+    private fun showInstructions() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+        builder.setTitle("INSTRUCTIONS")
+        builder.setMessage("I hope you are familiar with the game rules. Here are some app functionalities that will help you get through\n"+
+        "1. You can either select from the given levels or can create a custom board according to your requirements\n" +
+                "2. You can use the share button to share your score with friends\n"+
+                "3. Start button will start the game and the timer will get started on first click\n" +
+                "4. You can keep a track of marked mines using mine count\n" +
+                "5. You can toggle between flag/mine using the button on top to either flag or open the mine respectively\n" +
+                "6. Smile icon button can be used to refresh the game\n" +
+                "Have Fun!")
+
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("OK"
+        ){ dialog, which ->
+
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
 
     }
 
@@ -74,10 +118,15 @@ class MainActivity : AppCompatActivity() {
     // On resuming of activity
     override fun onResume() {
         super.onResume()
+
+        // Clearing Radio Buttons
+        selectGameLevel.clearCheck()
+
         val intent = intent
         if(intent.getStringExtra("lastTime") != null || intent.getStringExtra("highScore") != null ) {
-            lastGameTime.text = "" + intent.getStringExtra("lastTime")
-            bestTime.text = "" + intent.getStringExtra("highScore")
+            lastGameTime.text = " " + intent.getStringExtra("lastTime")
+            bestTime.text = " " + intent.getStringExtra("highScore")
+            highScore = intent.getStringExtra("highScore")
         }else{
             lastGameTime.text = " NA"
             bestTime.text = " NA"

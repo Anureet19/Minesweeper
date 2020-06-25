@@ -224,6 +224,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enterColumns" />
 
+        <ImageButton
+            android:id="@+id/infoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="#4A6572"
+            app:layout_constraintStart_toEndOf="@+id/Heading"
+            app:layout_constraintTop_toTopOf="@+id/Heading"
+            app:srcCompat="@drawable/info_icon" />
+
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#4A6572"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bestTime"
+            app:layout_constraintTop_toBottomOf="@+id/Heading"
+            app:srcCompat="@drawable/share_icon" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
